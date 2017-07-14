@@ -1,0 +1,13 @@
+class javafx/application/Preloader
+handleApplicationNotification
+ (Ljavafx/application/Preloader$PreloaderNotification;)V
+ (L1javafx/application/Preloader$PreloaderNotification;)V
+handleErrorNotification
+ (Ljavafx/application/Preloader$ErrorNotification;)Z
+ (L1javafx/application/Preloader$ErrorNotification;)Z
+handleProgressNotification
+ (Ljavafx/application/Preloader$ProgressNotification;)V
+ (L1javafx/application/Preloader$ProgressNotification;)V
+handleStateChangeNotification
+ (Ljavafx/application/Preloader$StateChangeNotification;)V
+ (L1javafx/application/Preloader$StateChangeNotification;)V

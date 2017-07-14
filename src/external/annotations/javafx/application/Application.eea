@@ -1,0 +1,4 @@
+class javafx/application/Application
+start
+ (Ljavafx/stage/Stage;)V
+ (L1javafx/stage/Stage;)V
