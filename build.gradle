@@ -27,7 +27,7 @@ buildScan {
   publishAlways()
 }
 
-//description = "TODO"
+description = "This is an image editor."
 
 apply plugin: "org.junit.platform.gradle.plugin"
 apply plugin: 'javafx-gradle-plugin'
@@ -38,6 +38,7 @@ repositories {
 }
 
 dependencies {
+    compile "org.reactfx:reactfx:2.0-M5"
     compile "com.google.guava:guava:22.0"
 
     def auto_version = "1.4.1"
@@ -126,8 +127,71 @@ spotless {
     }
 }
 
+//We want the gradle build config to be the single source of truth.
+//Never depend on configurations done in an IDE.
+tasks.eclipse.dependsOn(cleanEclipse)
+
+import org.gradle.plugins.ide.eclipse.model.AccessRule
 eclipse {
+    project {
+        comment 'An image editor.'
+  // the buildship plugin in eclipse is very aggresive about rewriting the .classpath and .project files.
+  // we are better of not using the plugin for now
+        natures.remove('org.eclipse.buildship.core.gradleprojectnature')
+        buildCommands.remove('org.eclipse.buildship.core.gradleprojectbuilder')
+    }
     classpath {
+        //file {
+            //withXml {
+                //def jreContainer = it.asNode().find {
+                    //def kind = it.attribute("kind")
+                   // def path = it.attribute("path")
+                  //  kind == "con" &&
+                 //   path != null &&
+                //    path.contains("org.eclipse.jdt.launching.JRE_CONTAINER")
+               // }
+              //  def attributes = jreContainer.find { it.name() == "attributes" }
+             //   attributes = (attributes == null) ? jreContainer.appendNode("attributes") : attributes
+            //    attributes.appendNode("attribute",[name: 'annotationpath', value: 'src/external/annotations'])
+
+
+                //We need to tell eclipse about the external annotations location
+              //This is the goal:
+              //<attributes>
+              //    <attribute name="annotationpath" value="src/external/annotations"/>
+              //</attributes>
+           // }
+        //}
+
+
+	file.whenMerged {
+        	entries.each { source -> 
+                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
+
+		//Example of what we try to achieve here
+		//<accessrules>
+		//	<accessrule kind="accessible" pattern="javafx/**"/>
+		//</accessrules>
+		
+		// '0' = accessible
+		// '1' = nonaccessible
+		// '2' = discouraged
+
+                jre.accessRules.add(new AccessRule("nonaccessible", 'sun/**'))
+               	jre.accessRules.add(new AccessRule("nonaccessible", 'javax/swing/**'))
+               	jre.accessRules.add(new AccessRule("nonaccessible", 'com/sun/**'))
+               	jre.accessRules.add(new AccessRule("accessible", 'javafx/**'))
+
+                //We need to tell eclipse about the external annotations location
+                //<attributes>
+                //    <attribute name="annotationpath" value="src/external/annotations"/>
+                //</attributes>
+ 
+		jre.entryAttributes.put("annotationpath","src/external/annotations")
+        }
+     }
+	defaultOutputDir = file('build/eclipse-bin')
+
         downloadSources = true
         downloadJavadoc = false
     }

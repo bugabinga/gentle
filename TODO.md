@@ -3,6 +3,7 @@
 * javapackager + signing
 * fill values in license header
 * pack200
+* document trouble with buildship in readme
 * proguard + full rt.jar ? relocate some jars
 * shade away dependencies like guava
 * integrate checkers with gradle-apt

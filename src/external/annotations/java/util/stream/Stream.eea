@@ -1,0 +1,4 @@
+class java/util/stream/Stream
+map
+ <R:Ljava/lang/Object;>(Ljava/util/function/Function<-TT;+TR;>;)Ljava/util/stream/Stream<TR;>;
+ <R:Ljava/lang/Object;>(L1java/util/function/Function<-T1T;+T1R;>;)Ljava/util/stream/Stream<T1R;>;

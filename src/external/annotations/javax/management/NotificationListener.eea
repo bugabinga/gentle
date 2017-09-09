@@ -1,0 +1,4 @@
+class javax/management/NotificationListener
+handleNotification
+ (Ljavax/management/Notification;Ljava/lang/Object;)V
+ (L1javax/management/Notification;L0java/lang/Object;)V
